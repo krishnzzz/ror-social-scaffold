@@ -1,18 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Create:</strong>
-  <%= @friendship.create %>
+  <strong>Sender:</strong>
+  <%= @friendship.sender_id %>
 </p>
 
 <p>
-  <strong>Update:</strong>
-  <%= @friendship.update %>
+  <strong>Receiver:</strong>
+  <%= @friendship.receiver_id %>
 </p>
 
 <p>
-  <strong>Delete:</strong>
-  <%= @friendship.delete %>
+  <strong>Status:</strong>
+  <%= @friendship.status %>
 </p>
 
 <%= link_to 'Edit', edit_friendship_path(@friendship) %> |

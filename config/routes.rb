@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :friendships
+  # resources :friendships, only: [:create]
+  get 'friendships/create'
+  get 'friendships/destroy'
   root 'posts#index'
 
   devise_for :users
