@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: %i[show edit update]
+  before_action :set_friendship, only: %i[show]
 
   # GET /friendships
   # GET /friendships.json
@@ -35,27 +35,31 @@ class FriendshipsController < ApplicationController
   # PATCH/PUT /friendships/1
   # PATCH/PUT /friendships/1.json
   def update
-    respond_to do |format|
-      if @friendship.update(friendship_params)
-        format.html { redirect_to @friendship, notice: 'Friendship was successfully updated.' }
-        format.json { render :show, status: :ok, location: @friendship }
-      else
-        format.html { render :edit }
-        format.json { render json: @friendship.errors, status: :unprocessable_entity }
-      end
+    @friendship = Friendship.where(sender_id: params[:sender], receiver_id: params[:receiver]).first
+
+    if @friendship.update(status: params[:status])
+      flash[:notice] = 'Friendship was successfully ' + params[:status] + '.'
+    else
+      flash[:alert] = 'Friendship not ' + params[:status] + '!'
     end
+    redirect_to user_path(params[:sender])
   end
 
   # DELETE /friendships/1
   # DELETE /friendships/1.json
   def destroy
     @friendship = Friendship.where(sender_id: params[:sender], receiver_id: params[:receiver]).first
+
     if @friendship.destroy
-      flash[:notice] = 'Friend request was successfully deleted.'
+      flash[:notice] = 'Friendship was successfully removed.'
     else
-      flash[:alert] = 'Friend request not deleted!'
+      flash[:alert] = 'Friendship not removed!'
     end
-    redirect_to user_path(params[:receiver])
+    redirect_to user_path(params[:redirect_user])
+    # if params[:receiver] == current_user[:id]
+    # else
+    #   redirect_to user_path(params[:receiver])
+    # end
   end
 
   private
