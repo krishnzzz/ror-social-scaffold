@@ -1,5 +1,5 @@
 class FriendshipsController < ApplicationController
-  before_action :set_friendship, only: %i[show edit update]
+  before_action :set_friendship, only: %i[show edit update destroy]
 
   # GET /friendships
   # GET /friendships.json
@@ -22,14 +22,17 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    @friendship = Friendship.new(sender_id: params[:sender], receiver_id: params[:receiver], status: 'requested')
+    @friendship = Friendship.new(friendship_params)
 
-    if @friendship.save
-      flash[:notice] = 'Friendship was successfully created.'
-    else
-      flash[:alert] = 'Friendship not created!'
+    respond_to do |format|
+      if @friendship.save
+        format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
+        format.json { render :show, status: :created, location: @friendship }
+      else
+        format.html { render :new }
+        format.json { render json: @friendship.errors, status: :unprocessable_entity }
+      end
     end
-    redirect_to user_path(params[:receiver])
   end
 
   # PATCH/PUT /friendships/1
@@ -49,13 +52,11 @@ class FriendshipsController < ApplicationController
   # DELETE /friendships/1
   # DELETE /friendships/1.json
   def destroy
-    @friendship = Friendship.where(sender_id: params[:sender], receiver_id: params[:receiver]).first
-    if @friendship.destroy
-      flash[:notice] = 'Friend request was successfully deleted.'
-    else
-      flash[:alert] = 'Friend request not deleted!'
+    @friendship.destroy
+    respond_to do |format|
+      format.html { redirect_to friendships_url, notice: 'Friendship was successfully destroyed.' }
+      format.json { head :no_content }
     end
-    redirect_to user_path(params[:receiver])
   end
 
   private
@@ -67,6 +68,6 @@ class FriendshipsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def friendship_params
-    params.require(:friendship).permit(:sender_id, :receiver_id, :status)
+    params.require(:friendship).permit(:create, :update, :delete, :sender_id, :receiver_id)
   end
 end
