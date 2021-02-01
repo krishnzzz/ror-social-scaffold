@@ -19,7 +19,7 @@
         <div>Your Friend.</div>
         <%= link_to 'Remove as friend', :controller => 'friendships', :action => 'destroy', :sender => @user, :receiver => current_user, :redirect_user => @user %>
       <% elsif @received_request[:status] == 'declined' %>
-        <%= link_to 'Add as friend', :controller => 'friendships', :action => 'create', :sender => current_user, :receiver => @user %>
+        <%= link_to 'Add as friend', :controller => 'friendships', :action => 're_create', :sender => current_user, :receiver => @user %>
       <% end %>
     <% else %>
       <%= link_to 'Add as friend', :controller => 'friendships', :action => 'create', :sender => current_user, :receiver => @user %>

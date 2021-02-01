@@ -32,6 +32,16 @@ class FriendshipsController < ApplicationController
     redirect_to user_path(params[:receiver])
   end
 
+  def re_create
+    @friendship = Friendship.where(sender_id: params[:receiver], receiver_id: params[:sender]).first
+    if @friendship.destroy
+      create
+    else
+      flash[:alert] = 'Friendship not created!'
+      redirect_to user_path(params[:receiver])
+    end
+  end
+
   # PATCH/PUT /friendships/1
   # PATCH/PUT /friendships/1.json
   def update
@@ -56,10 +66,6 @@ class FriendshipsController < ApplicationController
       flash[:alert] = 'Friendship not removed!'
     end
     redirect_to user_path(params[:redirect_user])
-    # if params[:receiver] == current_user[:id]
-    # else
-    #   redirect_to user_path(params[:receiver])
-    # end
   end
 
   private
