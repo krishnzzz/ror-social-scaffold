@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 require 'rails_helper'
 
 RSpec.feature 'SignUps', type: :feature do
@@ -60,3 +61,4 @@ RSpec.feature 'SignUps', type: :feature do
     expect(page).to have_text('Email has already been taken')
   end
 end
+# rubocop:enable Metrics/BlockLength
