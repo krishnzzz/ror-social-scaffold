@@ -18,4 +18,9 @@ module UsersHelper
     end
     false
   end
+
+  def no_request?(user)
+    @user = user
+    !request_sent? && !request_received? && user != current_user
+  end
 end
