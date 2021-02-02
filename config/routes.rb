@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # resources :friendships, only: [:create]
-  get 'friendships/re_create'
+  get 'friendships/destroy_both'
   get 'friendships/create'
   get 'friendships/destroy'
   get 'friendships/update'

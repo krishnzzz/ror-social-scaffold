@@ -1,22 +1,10 @@
 module UsersHelper
   def request_sent?
-    @user.received_requests.each do |request|
-      if request.sender_id == current_user[:id]
-        @sent_request = request
-        return true
-      end
-    end
-    false
+    @user.received_requests.any? { |request| (request.sender_id == current_user[:id]) }
   end
 
   def request_received?
-    @user.sent_requests.each do |request|
-      if request.receiver_id == current_user[:id]
-        @received_request = request
-        return true
-      end
-    end
-    false
+    @user.sent_requests.any? { |request| (request.receiver_id == current_user[:id]) }
   end
 
   def no_request?(user)

@@ -22,7 +22,7 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    @friendship = Friendship.new(sender_id: params[:sender], receiver_id: params[:receiver], status: 'requested')
+    @friendship = Friendship.new(sender_id: params[:sender], receiver_id: params[:receiver])
 
     if @friendship.save
       flash[:notice] = 'Friendship was successfully created.'
@@ -32,12 +32,13 @@ class FriendshipsController < ApplicationController
     redirect_to user_path(params[:receiver])
   end
 
-  def re_create
+  def destroy_both
     @friendship = Friendship.where(sender_id: params[:receiver], receiver_id: params[:sender]).first
     if @friendship.destroy
-      create
+      puts('>>>>>>>>>>>>>>>>>>First')
+      destroy
     else
-      flash[:alert] = 'Friendship not created!'
+      flash[:alert] = 'Friendship not removed!'
       redirect_to user_path(params[:receiver])
     end
   end
@@ -61,6 +62,7 @@ class FriendshipsController < ApplicationController
     @friendship = Friendship.where(sender_id: params[:sender], receiver_id: params[:receiver]).first
 
     if @friendship.destroy
+      puts('>>>>>>>>>>>>>>>>>>Second')
       flash[:notice] = 'Friendship was successfully removed.'
     else
       flash[:alert] = 'Friendship not removed!'
