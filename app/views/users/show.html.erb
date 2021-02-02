@@ -1,19 +1,6 @@
 <section class="user-section">
   <h2><%= "Name: #{@user.name}" %></h2>
-  <% if @user.id != current_user[:id] %>
-    <% if request_sent? && request_received? %>
-      <div>Your Friend.</div>
-      <%= link_to 'Remove as friend', :controller => 'friendships', :action => 'destroy_both', :sender => current_user, :receiver => @user, :redirect_user => @user %>
-    <% elsif request_sent? %>
-      <%= link_to 'Cancel friend request', :controller => 'friendships', :action => 'destroy', :sender => current_user, :receiver => @user, :redirect_user => @user %>
-    <% elsif request_received? %>
-      <div>You have been requested as friend.</div>
-      <%= link_to 'Accept request', :controller => 'friendships', :action => 'create', :sender => current_user, :receiver => @user %><br />
-      <%= link_to 'Decline request', :controller => 'friendships', :action => 'destroy', :sender => @user, :receiver => current_user, :redirect_user => @user %>
-    <% else %>
-      <%= link_to 'Add as friend', :controller => 'friendships', :action => 'create', :sender => current_user, :receiver => @user %>
-    <% end %>
-  <% end %>
+  <%= friendship_message %>
   <article class="timeline">
     <h3>Recent posts:</h3>
     <ul class="posts">
