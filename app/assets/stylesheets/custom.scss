@@ -32,7 +32,7 @@ ul {
 
 a {
   text-decoration: none;
-  color: $primary-color-text;
+  color: $primary-color;
 }
 
 .nav {
@@ -280,14 +280,14 @@ form {
   margin: 10px;
 
   .users-list li {
-    margin-bottom: 16px;
     text-transform: capitalize;
-    font-size: 1.2em;
+    font-size: 1em;
   }
 
   .profile-link {
-    font-size: 0.8em;
-    margin: 0 0 8px 0;
+    font-size: 1.6em;
+    display: inline-block;
+    margin: 16px 16px 0 0;
     color: $primary-color-dark;
   }
 }
